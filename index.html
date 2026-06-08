@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cursos — Casa de la Música de Manresa</title>
+  <style>
+    /* === RESET & BASE === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --vermell: #FF1700;
+      --negre: #191919;
+      --gris-clar: #f5f5f5;
+      --gris-linia: #e0e0e0;
+      --blanc: #ffffff;
+      --font: 'Arial', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--negre);
+      background: var(--blanc);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* === NAV === */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--negre);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+      border-bottom: 3px solid var(--vermell);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo svg { flex-shrink: 0; }
+    .nav-logo-text {
+      color: var(--blanc);
+      font-size: 0.85rem;
+      line-height: 1.3;
+      font-weight: bold;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo-text span { color: var(--vermell); }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+    nav ul a {
+      color: var(--blanc);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--vermell); }
+
+    /* === HERO === */
+    .hero {
+      background: var(--negre);
+      color: var(--blanc);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: bold;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em {
+      color: var(--vermell);
+      font-style: normal;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      opacity: 0.85;
+    }
+    .hero-btn {
+      display: inline-block;
+      background: var(--vermell);
+      color: var(--blanc);
+      padding: 0.85rem 2.2rem;
+      font-weight: bold;
+      font-size: 1rem;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .hero-btn:hover { opacity: 0.85; }
+
+    /* === SECTIONS === */
+    section { padding: 4rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--vermell);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .section-sub {
+      color: #666;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+    .divider {
+      width: 48px;
+      height: 4px;
+      background: var(--vermell);
+      margin: 0.6rem 0 2.5rem;
+    }
+
+    /* === GRAELLA HORÀRIA === */
+    #graella { background: var(--gris-clar); }
+    .graella-wrap { overflow-x: auto; }
+    .graella {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .graella thead th {
+      background: var(--negre);
+      color: var(--blanc);
+      padding: 0.7rem 1rem;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: 1px solid #333;
+    }
+    .graella thead th:first-child {
+      background: var(--vermell);
+      width: 70px;
+    }
+    .graella tbody td {
+      border: 1px solid var(--gris-linia);
+      padding: 0.5rem 0.7rem;
+      vertical-align: top;
+      min-width: 140px;
+    }
+    .graella tbody td:first-child {
+      background: var(--negre);
+      color: var(--blanc);
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.9rem;
+      padding: 0.5rem;
+      white-space: nowrap;
+    }
+    .graella tbody tr:nth-child(even) td:not(:first-child) {
+      background: #fafafa;
+    }
+    .curs-pill {
+      display: inline-block;
+      background: var(--vermell);
+      color: var(--blanc);
+      font-size: 0.72rem;
+      font-weight: bold;
+      padding: 0.2rem 0.5rem;
+      margin: 0.15rem 0.1rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .curs-pill.alt { background: var(--negre); }
+    .curs-pill.soft { background: #888; }
+
+    /* === CURSOS === */
+    #cursos { background: var(--blanc); }
+    .cursos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .curs-card {
+      border: 1px solid var(--gris-linia);
+      padding: 1.5rem;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .curs-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .curs-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--vermell);
+    }
+    .curs-card h3 {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.6rem;
+      padding-right: 0.5rem;
+    }
+    .curs-card p {
+      font-size: 0.9rem;
+      color: #444;
+      margin-bottom: 1rem;
+      line-height: 1.55;
+    }
+    .curs-horaris {
+      border-top: 1px solid var(--gris-linia);
+      padding-top: 0.8rem;
+      font-size: 0.82rem;
+    }
+    .curs-horaris strong {
+      display: block;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: #888;
+    }
+    .horari-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .horari-row:last-child { border-bottom: none; }
+    .horari-grup { font-weight: bold; color: var(--negre); }
+    .horari-dia { color: #666; }
+    .horari-hora {
+      font-weight: bold;
+      color: var(--vermell);
+    }
+    .curs-duracio {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: #888;
+    }
+
+    /* === FORMULARI === */
+    #formulari { background: var(--gris-clar); }
+    .form-wrap {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .form-bloc {
+      background: var(--blanc);
+      border: 1px solid var(--gris-linia);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .form-bloc h3 {
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--vermell);
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--vermell);
+    }
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: bold;
+      margin-bottom: 0.35rem;
+      color: var(--negre);
+    }
+    .form-group label .req { color: var(--vermell); margin-left: 2px; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid #ccc;
+      font-family: var(--font);
+      font-size: 0.95rem;
+      color: var(--negre);
+      background: var(--blanc);
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--vermell);
+      box-shadow: 0 0 0 3px rgba(255,23,0,0.1);
+    }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .form-group .hint {
+      font-size: 0.78rem;
+      color: #888;
+      margin-top: 0.3rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Cursos checkbox list */
+    .curs-check-item {
+      border: 1px solid var(--gris-linia);
+      margin-bottom: 0.6rem;
+      transition: border-color 0.2s;
+    }
+    .curs-check-item.actiu { border-color: var(--vermell); }
+    .curs-check-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .curs-check-header input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--vermell);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .curs-check-header span {
+      font-weight: bold;
+      font-size: 0.95rem;
+      flex: 1;
+    }
+    .curs-check-header .durada {
+      font-size: 0.78rem;
+      color: #888;
+      font-weight: normal;
+    }
+    .curs-grup-select {
+      padding: 0 1rem 0.75rem 2.8rem;
+      display: none;
+    }
+    .curs-grup-select.visible { display: block; }
+    .curs-grup-select select {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid #ccc;
+      font-family: var(--font);
+      font-size: 0.88rem;
+      color: var(--negre);
+      background: var(--gris-clar);
+    }
+    .curs-grup-select select:focus {
+      outline: none;
+      border-color: var(--vermell);
+    }
+
+    /* Experiencia */
+    .radio-group {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.95rem;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .radio-group input[type="radio"] {
+      width: 18px; height: 18px;
+      accent-color: var(--vermell);
+      flex-shrink: 0;
+    }
+
+    /* RGPD */
+    .checkbox-rgpd {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    .checkbox-rgpd input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--vermell);
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+    .checkbox-rgpd span {
+      font-size: 0.85rem;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      background: var(--vermell);
+      color: var(--blanc);
+      border: none;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: var(--font);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 0.5rem;
+    }
+    .submit-btn:hover { opacity: 0.85; }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Success message */
+    #missatge-exit {
+      display: none;
+      background: #e8f5e9;
+      border: 1px solid #4caf50;
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    #missatge-exit p { color: #2e7d32; font-weight: bold; }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--negre);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      border-top: 3px solid var(--vermell);
+    }
+    footer strong { color: var(--blanc); }
+
+    /* === MOBILE === */
+    @media (max-width: 640px) {
+      nav ul { gap: 1rem; }
+      nav ul a { font-size: 0.78rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero { padding: 3rem 1.5rem; }
+      section { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <!-- Símbol corporatiu Cases de la Música (SVG) -->
+    <svg width="28" height="28" viewBox="0 0 500 496" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,71.25 236.37,150.50 236.37,495.97 0,416.69" fill="#FF1700"/>
+      <polygon points="263.32,0 499.57,79.23 499.57,424.71 263.32,345.50" fill="#FF1700"/>
+    </svg>
+    <div class="nav-logo-text">
+      cases de<br>la <span>música</span> · manresa
+    </div>
+  </a>
+  <ul>
+    <li><a href="#graella">Horaris</a></li>
+    <li><a href="#cursos">Cursos</a></li>
+    <li><a href="#formulari">Inscripció</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Cursos de música<br><em>2024–2025</em></h1>
+  <p>Tria el teu instrument, el teu horari i el teu nivell. Des del primer dia, fas música de veritat.</p>
+  <a href="#formulari" class="hero-btn">Inscriu-te ara</a>
+</div>
+
+<!-- GRAELLA HORÀRIA -->
+<section id="graella">
+  <div class="container">
+    <h2 class="section-title">Graella horària</h2>
+    <div class="divider"></div>
+    <div class="graella-wrap">
+      <table class="graella">
+        <thead>
+          <tr>
+            <th>Hora</th>
+            <th>Dilluns</th>
+            <th>Dimarts</th>
+            <th>Dimecres</th>
+            <th>Dijous</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10h</td>
+            <td></td>
+            <td><span class="curs-pill">Guitarra acústica</span><br><small>Senior</small></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>11h</td>
+            <td><span class="curs-pill">Cant</span><br><small>Senior</small></td>
+            <td><span class="curs-pill alt">Guitarra elèctrica</span><br><small>Senior</small></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>12h</td>
+            <td></td>
+            <td><span class="curs-pill alt">Baix elèctric</span><br><small>Senior</small></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>16h</td>
+            <td>
+              <span class="curs-pill">Guitarra elèctrica</span> <small>Emergent</small><br>
+              <span class="curs-pill alt">Baix elèctric</span> <small>Emergent</small><br>
+              <span class="curs-pill soft">DJing</span> <small>Gr.1</small>
+            </td>
+            <td>
+              <span class="curs-pill">Guitarra acústica</span> <small>Emergent</small><br>
+              <span class="curs-pill alt">Cant</span> <small>Emergent</small><br>
+              <span class="curs-pill soft">Combo</span> <small>Emergent</small>
+            </td>
+            <td><span class="curs-pill">Rockin</span> <small>Emergent</small></td>
+            <td><span class="curs-pill">Bateria</span> <small>Gr.1</small></td>
+          </tr>
+          <tr>
+            <td>17h</td>
+            <td>
+              <span class="curs-pill">Guitarra elèctrica</span> <small>Jove</small><br>
+              <span class="curs-pill alt">Baix elèctric</span> <small>Jove</small><br>
+              <span class="curs-pill soft">Software musical</span> <small>Gr.1</small>
+            </td>
+            <td>
+              <span class="curs-pill">Guitarra acústica</span> <small>Jove</small><br>
+              <span class="curs-pill alt">Cant</span> <small>Jove</small><br>
+              <span class="curs-pill soft">Combo</span> <small>Jove</small>
+            </td>
+            <td>
+              <span class="curs-pill">Rockin</span> <small>Jove</small><br>
+              <span class="curs-pill alt">Freestyle</span> <small>Gr.1</small>
+            </td>
+            <td>
+              <span class="curs-pill">Bateria</span> <small>Gr.2</small><br>
+              <span class="curs-pill alt">Freestyle</span> <small>Gr.1</small>
+            </td>
+          </tr>
+          <tr>
+            <td>18h</td>
+            <td>
+              <span class="curs-pill">Guitarra elèctrica</span> <small>Adult</small><br>
+              <span class="curs-pill alt">Baix elèctric</span> <small>Adult</small><br>
+              <span class="curs-pill soft">DJing</span> <small>Gr.2</small>
+            </td>
+            <td>
+              <span class="curs-pill">Guitarra acústica</span> <small>Adult</small><br>
+              <span class="curs-pill alt">Cant</span> <small>Adult</small><br>
+              <span class="curs-pill soft">Combo</span> <small>Adult</small>
+            </td>
+            <td><span class="curs-pill">Rockin</span> <small>Adult</small></td>
+            <td><span class="curs-pill">Bateria</span> <small>Gr.3</small></td>
+          </tr>
+          <tr>
+            <td>19h</td>
+            <td><span class="curs-pill soft">Software musical</span> <small>Gr.2</small></td>
+            <td></td>
+            <td></td>
+            <td><span class="curs-pill">Bateria</span> <small>Gr.4</small></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem; font-size:0.82rem; color:#888;">Durada de cada sessió: 1 hora</p>
+  </div>
+</section>
+
+<!-- CURSOS -->
+<section id="cursos">
+  <div class="container">
+    <h2 class="section-title">Els cursos</h2>
+    <div class="divider"></div>
+    <div class="cursos-grid">
+
+      <!-- Rockin -->
+      <div class="curs-card">
+        <h3>Rockin — Música en banda</h3>
+        <p>T'agradaria tocar un instrument, formar una banda i actuar en directe? No cal saber-ne res: arribes, tries el teu instrument i des del primer dia toques amb la resta del combo. L'any acaba amb un concert real, davant de públic.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Emergent (12–17)</span><span class="horari-dia">Dimecres</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Jove (18–24)</span><span class="horari-dia">Dimecres</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Adult (35–64)</span><span class="horari-dia">Dimecres</span><span class="horari-hora">18h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Guitarra elèctrica -->
+      <div class="curs-card">
+        <h3>Guitarra elèctrica</h3>
+        <p>Aprendràs des de zero: posicions de mà, acords, power chords i el so que estàs buscant. Les classes combinen tècnica i repertori real, perquè des del primer dia toquis música que reconeguis.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Emergent (12–17)</span><span class="horari-dia">Dilluns</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Jove (18–24)</span><span class="horari-dia">Dilluns</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Adult (35–64)</span><span class="horari-dia">Dilluns</span><span class="horari-hora">18h</span></div>
+          <div class="horari-row"><span class="horari-grup">Senior (+65)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">11h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Guitarra acústica -->
+      <div class="curs-card">
+        <h3>Guitarra acústica</h3>
+        <p>La guitarra acústica és un dels instruments més versàtils que hi ha. Aprendràs a tocar-la des de zero, treballant acords, melodia i acompanyament amb un repertori variat i proper.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Senior (+65)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">10h</span></div>
+          <div class="horari-row"><span class="horari-grup">Emergent (12–17)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Jove (18–24)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Adult (35–64)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">18h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Baix elèctric -->
+      <div class="curs-card">
+        <h3>Baix elèctric</h3>
+        <p>El baix és l'instrument que ho aguanta tot. Aprendràs a construir el groove d'una banda, a escoltar i a fer sonar el conjunt. Ideal per a qui vol aprendre des de zero o consolidar les bases.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Emergent (12–17)</span><span class="horari-dia">Dilluns</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Jove (18–24)</span><span class="horari-dia">Dilluns</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Adult (35–64)</span><span class="horari-dia">Dilluns</span><span class="horari-hora">18h</span></div>
+          <div class="horari-row"><span class="horari-grup">Senior (+65)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">12h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Cant -->
+      <div class="curs-card">
+        <h3>Cant</h3>
+        <p>La veu és el teu instrument i ja el portes a sobre. Aprendràs a projectar-la, a afinar, a interpretar i a sentir-te còmode cantant. Treballem tècnica i expressivitat sobre repertori real, en un espai sense pressió.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Senior (+65)</span><span class="horgi-dia">Dilluns</span><span class="horari-hora">11h</span></div>
+          <div class="horari-row"><span class="horari-grup">Emergent (12–17)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Jove (18–24)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Adult (35–64)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">18h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Bateria -->
+      <div class="curs-card">
+        <h3>Bateria</h3>
+        <p>El que cal és ganes de tocar. Aprendràs els fonaments del ritme, la coordinació i els patrons bàsics del rock i els estils moderns. Classes individuals, per a tots els nivells.</p>
+        <div class="curs-horaris">
+          <strong>Horaris (classes individuals)</strong>
+          <div class="horari-row"><span class="horari-grup">Gr. 1</span><span class="horari-dia">Dijous</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Gr. 2</span><span class="horari-dia">Dijous</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Gr. 3</span><span class="horari-dia">Dijous</span><span class="horari-hora">18h</span></div>
+          <div class="horari-row"><span class="horari-grup">Gr. 4</span><span class="horari-dia">Dijous</span><span class="horari-hora">19h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Combo -->
+      <div class="curs-card">
+        <h3>Combo</h3>
+        <p>Per a qui ja toca un instrument i vol fer el pas de tocar en banda. Cada setmana assajes amb la resta del grup, aprens a escoltar i a construir arranjaments junts.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Emergent (12–17)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Jove (18–24)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Adult (35–64)</span><span class="horari-dia">Dimarts</span><span class="horari-hora">18h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- DJing -->
+      <div class="curs-card">
+        <h3>DJing</h3>
+        <p>Aprèn a gestionar una sessió de principi a final: selecció de música, mixatge, transicions i lectura de la pista. El curs cobreix les eines bàsiques del DJ modern, tant analògiques com digitals.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Gr. 1 · Mixt</span><span class="horari-dia">Dilluns</span><span class="horari-hora">16h</span></div>
+          <div class="horari-row"><span class="horari-grup">Gr. 2 · Mixt</span><span class="horari-dia">Dilluns</span><span class="horari-hora">18h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Software musical -->
+      <div class="curs-card">
+        <h3>Software musical</h3>
+        <p>Tens una idea de cançó al cap però no saps per on començar? Amb un ordinador i el programari adequat pots compondre, produir i enregistrar els teus propis temes des de zero.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Gr. 1 · Mixt</span><span class="horari-dia">Dilluns</span><span class="horari-hora">17h</span></div>
+          <div class="horari-row"><span class="horari-grup">Gr. 2 · Mixt</span><span class="horari-dia">Dilluns</span><span class="horari-hora">19h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+      <!-- Freestyle -->
+      <div class="curs-card">
+        <h3>Freestyle</h3>
+        <p>L'art d'improvisar amb paraules sobre una base. Exploraràs el rap, la rima i el flow com a eines d'expressió: des de la construcció de lletres fins a la improvisació en directe.</p>
+        <div class="curs-horaris">
+          <strong>Horaris</strong>
+          <div class="horari-row"><span class="horari-grup">Gr. 1 · Mixt</span><span class="horari-dia">Dimecres i Dijous</span><span class="horari-hora">17h</span></div>
+          <p class="curs-duracio">⏱ 1 hora per sessió</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FORMULARI D'INSCRIPCIÓ -->
+<section id="formulari">
+  <div class="container">
+    <h2 class="section-title">Formulari d'inscripció</h2>
+    <div class="divider"></div>
+    <div class="form-wrap">
+
+      <!--
+        IMPORTANT: Per rebre les inscripcions per correu, cal:
+        1. Crear un compte gratuït a https://formspree.io
+        2. Crear un nou formulari i copiar el codi (exemple: "abcdefgh")
+        3. Substituir "YOUR_FORM_ID" a l'atribut action per l'ID real
+        Exemple: action="https://formspree.io/f/abcdefgh"
+      -->
+      <form id="form-inscripcio" action="https://formspree.io/f/mrevqkob" method="POST">
+
+        <!-- BLOC 1: Dades personals -->
+        <div class="form-bloc">
+          <h3>Dades personals</h3>
+          <div class="form-group">
+            <label for="nom">Nom i cognoms <span class="req">*</span></label>
+            <input type="text" id="nom" name="nom" required placeholder="El teu nom complet" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="data-naix">Data de naixement <span class="req">*</span></label>
+              <input type="date" id="data-naix" name="data_naixement" required />
+            </div>
+            <div class="form-group">
+              <label for="telefon">Telèfon de contacte <span class="req">*</span></label>
+              <input type="tel" id="telefon" name="telefon" required placeholder="6XX XXX XXX" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Correu electrònic <span class="req">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="correu@exemple.com" />
+          </div>
+          <div class="form-group" id="grup-tutor" style="display:none;">
+            <label for="tutor">Nom i cognoms del tutor/a legal <span class="req">*</span></label>
+            <input type="text" id="tutor" name="tutor_legal" placeholder="Nom complet del tutor o tutora" />
+            <p class="hint">Necessari per a menors d'edat</p>
+          </div>
+        </div>
+
+        <!-- BLOC 2: Selecció de cursos -->
+        <div class="form-bloc">
+          <h3>Selecció de cursos</h3>
+          <p style="font-size:0.88rem; color:#666; margin-bottom:1rem;">Pots seleccionar més d'un curs. En marcar-lo, tria l'horari del grup.</p>
+
+          <!-- Rockin -->
+          <div class="curs-check-item" id="item-rockin">
+            <div class="curs-check-header" onclick="toggleCurs('rockin')">
+              <input type="checkbox" id="check-rockin" name="curs_rockin" value="si" onchange="toggleCurs('rockin')" />
+              <span>Rockin — Música en banda <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-rockin">
+              <select name="grup_rockin">
+                <option value="">— Tria el grup —</option>
+                <option value="Emergent 12–17 · Dimecres 16h">Emergent (12–17 anys) · Dimecres 16h</option>
+                <option value="Jove 18–24 · Dimecres 17h">Jove (18–24 anys) · Dimecres 17h</option>
+                <option value="Adult 35–64 · Dimecres 18h">Adult (35–64 anys) · Dimecres 18h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Guitarra elèctrica -->
+          <div class="curs-check-item" id="item-gelec">
+            <div class="curs-check-header" onclick="toggleCurs('gelec')">
+              <input type="checkbox" id="check-gelec" name="curs_guitarra_electrica" value="si" onchange="toggleCurs('gelec')" />
+              <span>Guitarra elèctrica <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-gelec">
+              <select name="grup_guitarra_electrica">
+                <option value="">— Tria el grup —</option>
+                <option value="Emergent 12–17 · Dilluns 16h">Emergent (12–17) · Dilluns 16h</option>
+                <option value="Jove 18–24 · Dilluns 17h">Jove (18–24) · Dilluns 17h</option>
+                <option value="Adult 35–64 · Dilluns 18h">Adult (35–64) · Dilluns 18h</option>
+                <option value="Senior +65 · Dimarts 11h">Senior (+65) · Dimarts 11h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Guitarra acústica -->
+          <div class="curs-check-item" id="item-gacus">
+            <div class="curs-check-header" onclick="toggleCurs('gacus')">
+              <input type="checkbox" id="check-gacus" name="curs_guitarra_acustica" value="si" onchange="toggleCurs('gacus')" />
+              <span>Guitarra acústica <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-gacus">
+              <select name="grup_guitarra_acustica">
+                <option value="">— Tria el grup —</option>
+                <option value="Senior +65 · Dimarts 10h">Senior (+65) · Dimarts 10h</option>
+                <option value="Emergent 12–17 · Dimarts 16h">Emergent (12–17) · Dimarts 16h</option>
+                <option value="Jove 18–24 · Dimarts 17h">Jove (18–24) · Dimarts 17h</option>
+                <option value="Adult 35–64 · Dimarts 18h">Adult (35–64) · Dimarts 18h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Baix elèctric -->
+          <div class="curs-check-item" id="item-baix">
+            <div class="curs-check-header" onclick="toggleCurs('baix')">
+              <input type="checkbox" id="check-baix" name="curs_baix_electric" value="si" onchange="toggleCurs('baix')" />
+              <span>Baix elèctric <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-baix">
+              <select name="grup_baix_electric">
+                <option value="">— Tria el grup —</option>
+                <option value="Emergent 12–17 · Dilluns 16h">Emergent (12–17) · Dilluns 16h</option>
+                <option value="Jove 18–24 · Dilluns 17h">Jove (18–24) · Dilluns 17h</option>
+                <option value="Adult 35–64 · Dilluns 18h">Adult (35–64) · Dilluns 18h</option>
+                <option value="Senior +65 · Dimarts 12h">Senior (+65) · Dimarts 12h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Cant -->
+          <div class="curs-check-item" id="item-cant">
+            <div class="curs-check-header" onclick="toggleCurs('cant')">
+              <input type="checkbox" id="check-cant" name="curs_cant" value="si" onchange="toggleCurs('cant')" />
+              <span>Cant <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-cant">
+              <select name="grup_cant">
+                <option value="">— Tria el grup —</option>
+                <option value="Senior +65 · Dilluns 11h">Senior (+65) · Dilluns 11h</option>
+                <option value="Emergent 12–17 · Dimarts 16h">Emergent (12–17) · Dimarts 16h</option>
+                <option value="Jove 18–24 · Dimarts 17h">Jove (18–24) · Dimarts 17h</option>
+                <option value="Adult 35–64 · Dimarts 18h">Adult (35–64) · Dimarts 18h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bateria -->
+          <div class="curs-check-item" id="item-bat">
+            <div class="curs-check-header" onclick="toggleCurs('bat')">
+              <input type="checkbox" id="check-bat" name="curs_bateria" value="si" onchange="toggleCurs('bat')" />
+              <span>Bateria (classes individuals) <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-bat">
+              <select name="grup_bateria">
+                <option value="">— Tria el grup —</option>
+                <option value="Gr. 1 · Dijous 16h">Gr. 1 · Dijous 16h</option>
+                <option value="Gr. 2 · Dijous 17h">Gr. 2 · Dijous 17h</option>
+                <option value="Gr. 3 · Dijous 18h">Gr. 3 · Dijous 18h</option>
+                <option value="Gr. 4 · Dijous 19h">Gr. 4 · Dijous 19h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Combo -->
+          <div class="curs-check-item" id="item-combo">
+            <div class="curs-check-header" onclick="toggleCurs('combo')">
+              <input type="checkbox" id="check-combo" name="curs_combo" value="si" onchange="toggleCurs('combo')" />
+              <span>Combo <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-combo">
+              <select name="grup_combo">
+                <option value="">— Tria el grup —</option>
+                <option value="Emergent 12–17 · Dimarts 16h">Emergent (12–17) · Dimarts 16h</option>
+                <option value="Jove 18–24 · Dimarts 17h">Jove (18–24) · Dimarts 17h</option>
+                <option value="Adult 35–64 · Dimarts 18h">Adult (35–64) · Dimarts 18h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- DJing -->
+          <div class="curs-check-item" id="item-dj">
+            <div class="curs-check-header" onclick="toggleCurs('dj')">
+              <input type="checkbox" id="check-dj" name="curs_djing" value="si" onchange="toggleCurs('dj')" />
+              <span>DJing <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-dj">
+              <select name="grup_djing">
+                <option value="">— Tria el grup —</option>
+                <option value="Gr. 1 · Dilluns 16h">Gr. 1 · Dilluns 16h</option>
+                <option value="Gr. 2 · Dilluns 18h">Gr. 2 · Dilluns 18h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Software musical -->
+          <div class="curs-check-item" id="item-soft">
+            <div class="curs-check-header" onclick="toggleCurs('soft')">
+              <input type="checkbox" id="check-soft" name="curs_software_musical" value="si" onchange="toggleCurs('soft')" />
+              <span>Software musical <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-soft">
+              <select name="grup_software_musical">
+                <option value="">— Tria el grup —</option>
+                <option value="Gr. 1 · Dilluns 17h">Gr. 1 · Dilluns 17h</option>
+                <option value="Gr. 2 · Dilluns 19h">Gr. 2 · Dilluns 19h</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Freestyle -->
+          <div class="curs-check-item" id="item-free">
+            <div class="curs-check-header" onclick="toggleCurs('free')">
+              <input type="checkbox" id="check-free" name="curs_freestyle" value="si" onchange="toggleCurs('free')" />
+              <span>Freestyle <span class="durada">· 1h/sessió</span></span>
+            </div>
+            <div class="curs-grup-select" id="sel-free">
+              <select name="grup_freestyle">
+                <option value="">— Tria el grup —</option>
+                <option value="Gr. 1 · Dimecres i Dijous 17h">Gr. 1 · Dimecres i Dijous 17h</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- BLOC 3: Experiència musical -->
+        <div class="form-bloc">
+          <h3>Experiència musical</h3>
+          <div class="form-group">
+            <label>Toques algun instrument? <span class="req">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="toca_instrument" value="si" required onchange="toggleInstrument(true)" /> Sí</label>
+              <label><input type="radio" name="toca_instrument" value="no" onchange="toggleInstrument(false)" /> No</label>
+            </div>
+          </div>
+          <div class="form-group" id="grup-instrument" style="display:none;">
+            <label for="instrument">Quin instrument i quant de temps?</label>
+            <input type="text" id="instrument" name="instrument_experiencia" placeholder="Ex: guitarra, 3 anys" />
+          </div>
+        </div>
+
+        <!-- BLOC 4: Observacions -->
+        <div class="form-bloc">
+          <h3>Observacions</h3>
+          <div class="form-group">
+            <label for="observacions">Vols afegir alguna cosa?</label>
+            <textarea id="observacions" name="observacions" placeholder="Qualsevol informació que vulguis compartir..."></textarea>
+          </div>
+        </div>
+
+        <!-- BLOC 5: RGPD -->
+        <div class="form-bloc">
+          <h3>Protecció de dades</h3>
+          <div class="form-group">
+            <div class="checkbox-rgpd">
+              <input type="checkbox" id="rgpd" name="consentiment_rgpd" required />
+              <span>He llegit i accepto el tractament de les meves dades personals per part de Casa de la Música de Manresa, d'acord amb el Reglament General de Protecció de Dades (RGPD). Les dades proporcionades s'utilitzaran únicament per a la gestió de la inscripció als cursos.</span>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn" id="btn-enviar">Enviar inscripció</button>
+        </div>
+
+      </form>
+
+      <div id="missatge-exit">
+        <p>✓ Inscripció enviada correctament!</p>
+        <p style="font-weight:normal; font-size:0.9rem; margin-top:0.4rem;">Et contactarem aviat per confirmar la plaça. Gràcies!</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Casa de la Música de Manresa</strong> · <a href="mailto:comunicacio@ccmm.cat" style="color:var(--vermell); text-decoration:none;">comunicacio@ccmm.cat</a></p>
+  <p style="margin-top:0.4rem; font-size:0.78rem;">© 2024–2025 Cases de la Música</p>
+</footer>
+
+<script>
+  // Mostrar/amagar desplegable de grup en seleccionar curs
+  function toggleCurs(id) {
+    const check = document.getElementById('check-' + id);
+    const sel = document.getElementById('sel-' + id);
+    const item = document.getElementById('item-' + id);
+    if (check.checked) {
+      sel.classList.add('visible');
+      item.classList.add('actiu');
+    } else {
+      sel.classList.remove('visible');
+      item.classList.remove('actiu');
+      sel.querySelector('select').value = '';
+    }
+  }
+
+  // Mostrar camp instrument si respon Sí
+  function toggleInstrument(show) {
+    document.getElementById('grup-instrument').style.display = show ? 'block' : 'none';
+  }
+
+  // Mostrar camp tutor si menor (detecta data de naixement)
+  document.getElementById('data-naix').addEventListener('change', function() {
+    const naix = new Date(this.value);
+    const avui = new Date();
+    let edat = avui.getFullYear() - naix.getFullYear();
+    const m = avui.getMonth() - naix.getMonth();
+    if (m < 0 || (m === 0 && avui.getDate() < naix.getDate())) edat--;
+    const camp = document.getElementById('grup-tutor');
+    const input = document.getElementById('tutor');
+    if (edat < 18) {
+      camp.style.display = 'block';
+      input.required = true;
+    } else {
+      camp.style.display = 'none';
+      input.required = false;
+      input.value = '';
+    }
+  });
+
+  // Gestió enviament formulari amb Formspree
+  const form = document.getElementById('form-inscripcio');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btn-enviar');
+    btn.disabled = true;
+    btn.textContent = 'Enviant...';
+
+    const data = new FormData(form);
+    try {
+      const resp = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (resp.ok) {
+        form.style.display = 'none';
+        document.getElementById('missatge-exit').style.display = 'block';
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Enviar inscripció';
+        alert('Hi ha hagut un error. Torna-ho a intentar o contacta\'ns per correu.');
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Enviar inscripció';
+      alert('Hi ha hagut un error de connexió. Comprova la connexió i torna-ho a intentar.');
+    }
+  });
+</script>
+
+</body>
+</html>
